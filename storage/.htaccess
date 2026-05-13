@@ -1,0 +1,2 @@
+# Empêche l'accès HTTP direct aux fichiers de messages (PHP lit toujours via le système de fichiers).
+Require all denied

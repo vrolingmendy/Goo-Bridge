@@ -1,3 +1,9 @@
+<?php
+require_once __DIR__ . '/includes/session.php';
+require_once __DIR__ . '/includes/paths.php';
+require_once __DIR__ . '/includes/auth.php';
+require __DIR__ . '/contact_handler.php';
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -19,6 +25,7 @@
 
   <!-- ===== NAVBAR ===== -->
   <header id="navbar">
+    <input type="checkbox" id="nav-menu-toggle" class="nav-menu-checkbox">
     <nav class="nav-container">
       <a href="#accueil" class="nav-logo" aria-label="Goo-Bridge accueil">
         <svg width="26" height="26" viewBox="0 0 28 28" fill="none" aria-hidden="true">
@@ -36,10 +43,15 @@
         <li><a href="#realisations">Réalisations</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
+      <?php if (admin_logged_in()): ?>
+        <a href="<?= htmlspecialchars(url('admin/dashboard.php'), ENT_QUOTES, 'UTF-8') ?>" class="btn-nav-login">Login</a>
+      <?php else: ?>
+        <a href="<?= htmlspecialchars(url('login.php'), ENT_QUOTES, 'UTF-8') ?>" class="btn-nav-login">Connexion</a>
+      <?php endif; ?>
       <a href="#contact" class="btn-cta" id="nav-cta">Consultation gratuite</a>
-      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu" aria-expanded="false">
+      <label for="nav-menu-toggle" class="mobile-menu-btn" aria-label="Ouvrir ou fermer le menu">
         <span></span><span></span><span></span>
-      </button>
+      </label>
     </nav>
     <div class="mobile-nav" id="mobileNav">
       <a href="#accueil">Accueil</a>
@@ -48,6 +60,12 @@
       <a href="#stack">Stack</a>
       <a href="#realisations">Réalisations</a>
       <a href="#contact">Contact</a>
+      <?php if (admin_logged_in()): ?>
+        <a href="<?= htmlspecialchars(url('admin/dashboard.php'), ENT_QUOTES, 'UTF-8') ?>">Tableau de bord</a>
+        <a href="<?= htmlspecialchars(url('logout.php'), ENT_QUOTES, 'UTF-8') ?>">Déconnexion</a>
+      <?php else: ?>
+        <a href="<?= htmlspecialchars(url('login.php'), ENT_QUOTES, 'UTF-8') ?>">Connexion</a>
+      <?php endif; ?>
     </div>
   </header>
 
@@ -56,19 +74,19 @@
     <!-- ===== HERO ===== -->
     <section id="accueil" class="hero">
       <div class="hero-bg-grid" aria-hidden="true"></div>
-      <canvas id="globeCanvas" class="hero-globe-canvas" aria-hidden="true"></canvas>
+      <?php require __DIR__ . '/partials/globe.php'; ?>
 
       <div class="hero-content">
-        <h1 class="hero-title js-reveal" data-delay="80">
+        <h1 class="hero-title reveal" data-delay="80">
           Nous construisons votre<br />
           <span class="gradient-text">présence digitale</span>
         </h1>
-        <p class="hero-sub js-reveal" data-delay="160">
+        <p class="hero-sub reveal" data-delay="160">
           De la conception à la mise en ligne, Goo-Bridge vous accompagne à chaque étape. Sites web modernes,
           applications mobiles performantes, hébergement sécurisé — tout ce qu'il faut pour que votre entreprise rayonne
           en ligne.
         </p>
-        <div class="hero-actions js-reveal" data-delay="240">
+        <div class="hero-actions reveal" data-delay="240">
           <a href="#contact" class="btn-primary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path
@@ -80,7 +98,7 @@
         </div>
 
         <!-- Trust row -->
-        <div class="hero-trust js-reveal" data-delay="320">
+        <div class="hero-trust reveal" data-delay="320">
           <div class="trust-item">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5">
               <polyline points="20 6 9 17 4 12" />
@@ -101,25 +119,25 @@
           </div>
         </div>
 
-        <div class="hero-stats js-reveal" data-delay="400">
+        <div class="hero-stats reveal" data-delay="400">
           <div class="stat">
-            <span class="stat-num" data-count="100">0</span><span class="stat-num">+</span>
+            <span class="stat-num">100</span><span class="stat-num">+</span>
             <span class="stat-label">Projets livrés</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat">
-            <span class="stat-num" data-count="98">0</span><span class="stat-num">%</span>
+            <span class="stat-num">98</span><span class="stat-num">%</span>
             <span class="stat-label">Clients satisfaits</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat">
-            <span class="stat-num" data-count="5">0</span><span class="stat-num"> ans</span>
+            <span class="stat-num">5</span><span class="stat-num"> ans</span>
             <span class="stat-label">D'expertise</span>
           </div>
         </div>
       </div>
 
-      <div class="hero-visual js-reveal" data-delay="100">
+      <div class="hero-visual reveal" data-delay="100">
         <div class="hero-img-wrap">
           <img src="images/hero-agency.png" alt="Goo-Bridge Agence Digitale" width="560" height="460" loading="eager" />
           <div class="hero-img-overlay"></div>
@@ -135,15 +153,15 @@
           </div>
         </div>
         <!-- Floating service chips -->
-        <div class="hero-chip hero-chip-1 js-reveal" data-delay="500">🌐 Site vitrine</div>
-        <div class="hero-chip hero-chip-2 js-reveal" data-delay="600">📱 App mobile</div>
-        <div class="hero-chip hero-chip-3 js-reveal" data-delay="700">🛒 E-commerce</div>
+        <div class="hero-chip hero-chip-1 reveal" data-delay="500">🌐 Site vitrine</div>
+        <div class="hero-chip hero-chip-2 reveal" data-delay="600">📱 App mobile</div>
+        <div class="hero-chip hero-chip-3 reveal" data-delay="700">🛒 E-commerce</div>
       </div>
     </section>
 
     <!-- ===== SERVICES ===== -->
     <section id="services" class="section-services">
-      <div class="section-header js-reveal">
+      <div class="section-header reveal">
         <span class="section-tag">Nos Services</span>
         <h2>Ce que nous faisons <span class="gradient-text">concrètement</span> pour vous</h2>
         <p>Chaque service est pensé pour répondre à un vrai besoin business. Pas de jargon inutile — juste des
@@ -151,7 +169,7 @@
       </div>
 
       <!-- Service 1 -->
-      <div class="service-row js-reveal">
+      <div class="service-row reveal">
         <div class="service-row-text">
           <div class="sr-tag" style="--st:#16a34a">Développement Web</div>
           <h3>Votre site web, votre vitrine permanente</h3>
@@ -182,7 +200,7 @@
       </div>
 
       <!-- Service 2 -->
-      <div class="service-row reverse js-reveal">
+      <div class="service-row reverse reveal">
         <div class="service-row-text">
           <div class="sr-tag" style="--st:#3b82f6">Applications Mobiles</div>
           <h3>Une app dans la poche de vos clients</h3>
@@ -215,7 +233,7 @@
       </div>
 
       <!-- Service 3 -->
-      <div class="service-row js-reveal">
+      <div class="service-row reveal">
         <div class="service-row-text">
           <div class="sr-tag" style="--st:#8b5cf6">Hébergement & Déploiement</div>
           <h3>Votre site en ligne, rapide et sécurisé</h3>
@@ -248,7 +266,7 @@
 
     <!-- ===== PROCESSUS ===== -->
     <section id="processus" class="section-process">
-      <div class="section-header js-reveal">
+      <div class="section-header reveal">
         <span class="section-tag">Notre Processus</span>
         <h2>Comment nous travaillons <span class="gradient-text">avec vous</span></h2>
         <p>Un processus clair et transparent pour que vous sachiez toujours où en est votre projet.</p>
@@ -256,7 +274,7 @@
 
       <div class="process-layout">
         <div class="process-steps">
-          <div class="process-step js-reveal" data-delay="0">
+          <div class="process-step reveal" data-delay="0">
             <div class="ps-num">01</div>
             <div class="ps-body">
               <h4>Découverte & Analyse</h4>
@@ -264,7 +282,7 @@
                 clair est établi avant de toucher à une seule ligne de code.</p>
             </div>
           </div>
-          <div class="process-step js-reveal" data-delay="100">
+          <div class="process-step reveal" data-delay="100">
             <div class="ps-num">02</div>
             <div class="ps-body">
               <h4>Design & Maquettes</h4>
@@ -272,15 +290,15 @@
                 développement. Zéro surprise en fin de projet.</p>
             </div>
           </div>
-          <div class="process-step js-reveal" data-delay="200">
+          <div class="process-step reveal" data-delay="200">
             <div class="ps-num">03</div>
             <div class="ps-body">
               <h4>Développement</h4>
-              <p>Notre équipe code votre projet avec les meilleures technologies : JavaScript, PHP, Python et leurs
-                frameworks. Code propre, rapide et maintenable.</p>
+              <p>Notre équipe développe votre projet côté serveur et interface avec PHP, HTML/CSS et bases de données —
+                architectures claires, code propre et maintenable.</p>
             </div>
           </div>
-          <div class="process-step js-reveal" data-delay="300">
+          <div class="process-step reveal" data-delay="300">
             <div class="ps-num">04</div>
             <div class="ps-body">
               <h4>Tests & Livraison</h4>
@@ -288,7 +306,7 @@
                 projet et vous formons à son utilisation.</p>
             </div>
           </div>
-          <div class="process-step js-reveal" data-delay="400">
+          <div class="process-step reveal" data-delay="400">
             <div class="ps-num">05</div>
             <div class="ps-body">
               <h4>Support & Évolution</h4>
@@ -297,7 +315,7 @@
             </div>
           </div>
         </div>
-        <div class="process-img js-reveal" data-delay="200">
+        <div class="process-img reveal" data-delay="200">
           <img src="images/process-workflow.png" alt="Notre processus de travail" />
           <div class="process-img-badge">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2">
@@ -315,7 +333,7 @@
     <!-- ===== POURQUOI NOUS ===== -->
     <section id="pourquoi" class="section-why">
       <div class="why-inner">
-        <div class="why-text js-reveal">
+        <div class="why-text reveal">
           <span class="section-tag">Pourquoi Goo-Bridge ?</span>
           <h2>Un partenaire qui comprend <span class="gradient-text">vos enjeux</span></h2>
           <p>Nous ne sommes pas juste des développeurs. Nous sommes des partenaires qui pensent à la croissance de votre
@@ -328,7 +346,7 @@
           <a href="#contact" class="btn-primary" style="margin-top:32px;display:inline-flex;">Démarrer un projet</a>
         </div>
         <div class="why-features">
-          <div class="feature-row js-reveal" data-delay="0">
+          <div class="feature-row reveal" data-delay="0">
             <div class="feature-icon-box" style="--fc:#16a34a">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -339,7 +357,7 @@
               <p>5 ans d'expérience en développement web & mobile, plus de 100 projets livrés avec succès.</p>
             </div>
           </div>
-          <div class="feature-row js-reveal" data-delay="80">
+          <div class="feature-row reveal" data-delay="80">
             <div class="feature-icon-box" style="--fc:#3b82f6">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10" />
@@ -351,7 +369,7 @@
               <p>Nous livrons dans les temps convenus. Un planning détaillé est partagé dès le début du projet.</p>
             </div>
           </div>
-          <div class="feature-row js-reveal" data-delay="160">
+          <div class="feature-row reveal" data-delay="160">
             <div class="feature-icon-box" style="--fc:#f59e0b">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polygon
@@ -363,7 +381,7 @@
               <p>Code propre, site performant, design soigné. Nous ne livrons que ce dont nous sommes fiers.</p>
             </div>
           </div>
-          <div class="feature-row js-reveal" data-delay="240">
+          <div class="feature-row reveal" data-delay="240">
             <div class="feature-icon-box" style="--fc:#8b5cf6">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -377,7 +395,7 @@
               <p>Vous êtes informé à chaque étape. Accès à un espace collaboratif et réunions régulières.</p>
             </div>
           </div>
-          <div class="feature-row js-reveal" data-delay="320">
+          <div class="feature-row reveal" data-delay="320">
             <div class="feature-icon-box" style="--fc:#16a34a">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
@@ -390,19 +408,19 @@
           </div>
         </div>
       </div>
-      <div class="why-collab-img js-reveal">
+      <div class="why-collab-img reveal">
         <img src="images/team-collaboration.png" alt="Notre équipe en action" />
       </div>
     </section>
 
     <!-- ===== TECH STACK ===== -->
     <section id="stack" class="section-stack">
-      <div class="section-header js-reveal">
+      <div class="section-header reveal">
         <span class="section-tag">Notre Stack Technique</span>
         <h2>Les technologies qui <span class="gradient-text">alimentent nos projets</span></h2>
         <p>Nous maîtrisons les langages et frameworks les plus performants du marché.</p>
       </div>
-      <div class="marquee-wrap js-reveal" aria-hidden="true">
+      <div class="marquee-wrap reveal" aria-hidden="true">
         <div class="marquee-track">
           <div class="marquee-item"><svg width="36" height="36" viewBox="0 0 630 630">
               <rect width="630" height="630" fill="#f7df1e" />
@@ -507,7 +525,7 @@
         </div>
       </div>
       <div class="stack-cards">
-        <div class="stack-card js-reveal" data-delay="0" style="--lc:#f7df1e">
+        <div class="stack-card reveal" data-delay="0" style="--lc:#f7df1e">
           <div class="stack-card-header">
             <div class="stack-lang-icon" style="background:rgba(247,223,30,.12);border-color:rgba(247,223,30,.3)"><svg
                 width="28" height="28" viewBox="0 0 630 630">
@@ -527,7 +545,7 @@
             <span class="fw-chip" style="--fw:#83CD29">Node.js</span>
           </div>
         </div>
-        <div class="stack-card js-reveal" data-delay="120" style="--lc:#8892BE">
+        <div class="stack-card reveal" data-delay="120" style="--lc:#8892BE">
           <div class="stack-card-header">
             <div class="stack-lang-icon" style="background:rgba(136,146,190,.12);border-color:rgba(136,146,190,.3)"><svg
                 width="28" height="28" viewBox="0 0 128 128">
@@ -545,7 +563,7 @@
             <span class="fw-chip" style="--fw:#6C78AF">Symfony</span>
           </div>
         </div>
-        <div class="stack-card js-reveal" data-delay="240" style="--lc:#3776AB">
+        <div class="stack-card reveal" data-delay="240" style="--lc:#3776AB">
           <div class="stack-card-header">
             <div class="stack-lang-icon" style="background:rgba(55,118,171,.12);border-color:rgba(55,118,171,.3)"><svg
                 width="28" height="28" viewBox="0 0 128 128">
@@ -566,7 +584,7 @@
       </div>
 
       <!-- Bases de données -->
-      <div class="db-section js-reveal" data-delay="100">
+      <div class="db-section reveal" data-delay="100">
         <div class="db-header">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2">
             <ellipse cx="12" cy="5" rx="9" ry="3" />
@@ -577,7 +595,7 @@
         </div>
         <div class="db-cards">
 
-          <div class="db-card js-reveal" data-delay="0" style="--dc:#336791">
+          <div class="db-card reveal" data-delay="0" style="--dc:#336791">
             <div class="db-logo" style="background:rgba(51,103,145,.1);border-color:rgba(51,103,145,.3)">
               <svg width="30" height="30" viewBox="0 0 128 128">
                 <circle cx="64" cy="64" r="60" fill="#336791" />
@@ -593,7 +611,7 @@
             <div class="db-chips"><span>ACID</span><span>JSON</span><span>Open Source</span></div>
           </div>
 
-          <div class="db-card js-reveal" data-delay="80" style="--dc:#00758F">
+          <div class="db-card reveal" data-delay="80" style="--dc:#00758F">
             <div class="db-logo" style="background:rgba(0,117,143,.1);border-color:rgba(0,117,143,.3)">
               <svg width="30" height="30" viewBox="0 0 128 128">
                 <circle cx="64" cy="64" r="60" fill="#00758F" />
@@ -607,7 +625,7 @@
             <div class="db-chips"><span>Rapide</span><span>Fiable</span><span>Scalable</span></div>
           </div>
 
-          <div class="db-card js-reveal" data-delay="160" style="--dc:#4DB33D">
+          <div class="db-card reveal" data-delay="160" style="--dc:#4DB33D">
             <div class="db-logo" style="background:rgba(77,179,61,.1);border-color:rgba(77,179,61,.3)">
               <svg width="30" height="30" viewBox="0 0 128 128">
                 <path fill="#4DB33D"
@@ -622,7 +640,7 @@
             <div class="db-chips"><span>NoSQL</span><span>Flexible</span><span>Documents</span></div>
           </div>
 
-          <div class="db-card js-reveal" data-delay="240" style="--dc:#e47911">
+          <div class="db-card reveal" data-delay="240" style="--dc:#e47911">
             <div class="db-logo" style="background:rgba(228,121,17,.1);border-color:rgba(228,121,17,.3)">
               <svg width="30" height="30" viewBox="0 0 128 128">
                 <rect width="128" height="128" rx="20" fill="#e47911" />
@@ -648,14 +666,14 @@
 
 
     <section id="realisations" class="section-realisations">
-      <div class="section-header js-reveal">
+      <div class="section-header reveal">
         <span class="section-tag">Nos Réalisations</span>
         <h2>Des projets livrés, <span class="gradient-text">des clients satisfaits</span></h2>
         <p>Ces plateformes tournent en production aujourd'hui. Chacune a été conçue, développée et hébergée par
           Goo-Bridge.</p>
       </div>
       <div class="portfolio-grid">
-        <article class="portfolio-card js-reveal" data-delay="0">
+        <article class="portfolio-card reveal" data-delay="0">
           <div class="pc-img-wrap"><img src="images/realisation-sugar-paper.png" alt="Sugar Paper" />
             <div class="pc-overlay"><a href="https://sugar-paper.com/" target="_blank" rel="noopener"
                 class="pc-visit-btn">↗ Visiter le site</a></div>
@@ -667,7 +685,7 @@
               href="https://sugar-paper.com/" target="_blank" rel="noopener" class="pc-link">sugar-paper.com ↗</a>
           </div>
         </article>
-        <article class="portfolio-card js-reveal" data-delay="100">
+        <article class="portfolio-card reveal" data-delay="100">
           <div class="pc-img-wrap"><img src="images/realisation-aria-edu.png" alt="Aria Édu" />
             <div class="pc-overlay"><a href="https://aria-edu.com/" target="_blank" rel="noopener"
                 class="pc-visit-btn">↗ Visiter le site</a></div>
@@ -679,7 +697,7 @@
               href="https://aria-edu.com/" target="_blank" rel="noopener" class="pc-link">aria-edu.com ↗</a>
           </div>
         </article>
-        <article class="portfolio-card js-reveal" data-delay="200">
+        <article class="portfolio-card reveal" data-delay="200">
           <div class="pc-img-wrap"><img src="images/realisation-fouta-poids.png" alt="Fouta Poids Lourds" />
             <div class="pc-overlay"><a href="https://e.foutapoidslourds.com/" target="_blank" rel="noopener"
                 class="pc-visit-btn">↗ Visiter le site</a></div>
@@ -692,7 +710,7 @@
               ↗</a>
           </div>
         </article>
-        <article class="portfolio-card js-reveal" data-delay="300">
+        <article class="portfolio-card reveal" data-delay="300">
           <div class="pc-img-wrap"><img src="images/realisation-aria-education.png" alt="Aria Education" />
             <div class="pc-overlay"><a href="https://aria-education.com/" target="_blank" rel="noopener"
                 class="pc-visit-btn">↗ Visiter le site</a></div>
@@ -710,64 +728,71 @@
 
     <!-- ===== CONTACT ===== -->
     <section id="contact" class="section-contact">
-      <div class="contact-card js-reveal">
+      <div class="contact-card reveal">
         <div class="contact-left">
           <span class="section-tag">Contact</span>
           <h2>Parlons de votre projet</h2>
-          <p>Une idée ? Un besoin ? Contactez-nous pour une consultation gratuite. Nous vous répondons sous 24h.</p>
-          <div class="contact-info-list">
-            <div class="contact-info-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                <polyline points="22,6 12,13 2,6" />
-              </svg>
-              <span>contact@goo-bridge.com</span>
-            </div>
-            <div class="contact-info-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-              <span>Conakry, Guinée &amp; International</span>
-            </div>
+          <p class="contact-lead">Une idée, un besoin ? Décrivez votre projet : nous revenons vers vous sous <strong>24 à 72&nbsp;h</strong> (jours ouvrés) avec des précisions et la suite des étapes.</p>
+          <div class="contact-email-highlight">
+            <span class="contact-email-highlight__label">Écrivez-nous</span>
+            <a href="mailto:contact@goo-bridge.com" class="contact-email-highlight__link">contact@goo-bridge.com</a>
           </div>
-          <div class="contact-guarantees">
-            <div class="cg-item"><span class="cg-icon">⚡</span> Réponse sous 24h</div>
-            <div class="cg-item"><span class="cg-icon">🎯</span> Devis gratuit</div>
-            <div class="cg-item"><span class="cg-icon">🔒</span> Confidentialité garantie</div>
+          <div class="contact-guarantees contact-guarantees--chips">
+            <span class="contact-chip"><span class="contact-chip__dot" aria-hidden="true"></span> Réponse 24–72&nbsp;h</span>
+            <span class="contact-chip"><span class="contact-chip__dot" aria-hidden="true"></span> Devis gratuit</span>
+            <span class="contact-chip"><span class="contact-chip__dot" aria-hidden="true"></span> Données confidentielles</span>
           </div>
         </div>
-        <form class="contact-form" id="contactForm" novalidate>
-          <div class="form-row">
-            <div class="form-field"><label for="name">Nom complet</label><input type="text" id="name" name="name"
-                placeholder="Jean Dupont" required /></div>
-            <div class="form-field"><label for="email">Email</label><input type="email" id="email" name="email"
-                placeholder="jean@entreprise.com" required /></div>
+        <div class="contact-form-panel">
+          <div class="contact-form-panel__head">
+            <h3 class="contact-form-panel__title">Envoyer une demande</h3>
           </div>
-          <div class="form-field"><label for="service">Type de projet</label>
-            <select id="service" name="service">
-              <option value="">Choisissez un service...</option>
-              <option>Site vitrine</option>
-              <option>E-commerce</option>
-              <option>Application mobile</option>
-              <option>Plateforme web</option>
-              <option>Hébergement</option>
-              <option>Autre</option>
-            </select>
-          </div>
-          <div class="form-field"><label for="message">Décrivez votre projet</label><textarea id="message"
-              name="message"
-              placeholder="Dites-nous ce que vous souhaitez créer, votre secteur d'activité, vos délais..."
-              required></textarea></div>
-          <button type="submit" class="btn-primary btn-submit" id="submitBtn">
-            <span>Envoyer ma demande</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <line x1="22" y1="2" x2="11" y2="13" />
-              <polygon points="22 2 15 22 11 13 2 9 22 2" />
-            </svg>
-          </button>
-          <p class="form-success" id="formSuccess" hidden>✓ Message envoyé ! Nous vous répondrons sous 24h.</p>
-        </form>
+          <form class="contact-form" method="post" action="" accept-charset="UTF-8">
+            <?php if ($form_error !== ''): ?>
+            <p class="form-error"><?= htmlspecialchars($form_error, ENT_QUOTES, 'UTF-8') ?></p>
+            <?php endif; ?>
+            <?php if ($form_success): ?>
+            <p class="form-success" id="contact-form-success" role="status">✓ Message bien envoyé. Vérifiez votre boîte mail : nous vous avons envoyé une confirmation (vérifiez aussi les courriers indésirables).</p>
+            <?php endif; ?>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="name">Nom complet</label>
+                <input type="text" id="name" name="name" placeholder="Votre nom" autocomplete="name" required />
+              </div>
+              <div class="form-field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="vous@exemple.com" autocomplete="email" required />
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="phone">Téléphone <span class="form-field__optional">(optionnel)</span></label>
+              <input type="tel" id="phone" name="phone" placeholder="+33 6 12 34 56 78" autocomplete="tel" inputmode="tel" maxlength="32" />
+            </div>
+            <div class="form-field">
+              <label for="service">Type de projet</label>
+              <select id="service" name="service">
+                <option value="">Sélectionnez une option…</option>
+                <option>Site vitrine</option>
+                <option>E-commerce</option>
+                <option>Application mobile</option>
+                <option>Plateforme web</option>
+                <option>Hébergement</option>
+                <option>Autre</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="message">Votre message</label>
+              <textarea id="message" name="message" placeholder="Contexte, objectifs, délais souhaités, budget approximatif…" required></textarea>
+            </div>
+            <button type="submit" class="btn-primary btn-submit contact-submit-btn">
+              <span>Envoyer ma demande</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+            </button>
+          </form>
+        </div>
       </div>
     </section>
 
@@ -801,7 +826,31 @@
     </div>
   </footer>
 
-  <script src="main.js"></script>
+  <script>
+  (function () {
+    var el = document.getElementById('contact-form-success');
+    if (!el) return;
+
+    var hideDelayMs = 30000;
+    var fadeMs = 380;
+
+    window.setTimeout(function () {
+      el.style.transition = 'opacity ' + (fadeMs / 1000) + 's ease';
+      el.style.opacity = '0';
+      window.setTimeout(function () {
+        el.setAttribute('hidden', '');
+        el.style.display = 'none';
+        el.removeAttribute('role');
+        try {
+          var url = new URL(window.location.href);
+          url.searchParams.delete('sent');
+          var next = url.pathname + url.search + (url.hash || '#contact');
+          window.history.replaceState(null, '', next);
+        } catch (e) {}
+      }, fadeMs);
+    }, hideDelayMs);
+  })();
+  </script>
 </body>
 
 </html>
