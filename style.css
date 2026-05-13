@@ -1500,6 +1500,13 @@ body:has(#contact:target) .mobile-nav a[href="#contact"] {
   color: var(--text);
 }
 
+.contact-form-panel__lead {
+  margin: 10px 0 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
 .contact-form-panel .contact-form {
   display: flex;
   flex-direction: column;

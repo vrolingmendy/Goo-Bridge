@@ -746,6 +746,7 @@ require __DIR__ . '/contact_handler.php';
         <div class="contact-form-panel">
           <div class="contact-form-panel__head">
             <h3 class="contact-form-panel__title">Envoyer une demande</h3>
+            <p class="contact-form-panel__lead">Remplissez le formulaire — vous recevrez un accusé de réception par email.</p>
           </div>
           <form class="contact-form" method="post" action="" accept-charset="UTF-8">
             <?php if ($form_error !== ''): ?>
@@ -764,21 +765,26 @@ require __DIR__ . '/contact_handler.php';
                 <input type="email" id="email" name="email" placeholder="vous@exemple.com" autocomplete="email" required />
               </div>
             </div>
-            <div class="form-field">
-              <label for="phone">Téléphone <span class="form-field__optional">(optionnel)</span></label>
-              <input type="tel" id="phone" name="phone" placeholder="+33 6 12 34 56 78" autocomplete="tel" inputmode="tel" maxlength="32" />
-            </div>
-            <div class="form-field">
-              <label for="service">Type de projet</label>
-              <select id="service" name="service">
-                <option value="">Sélectionnez une option…</option>
-                <option>Site vitrine</option>
-                <option>E-commerce</option>
-                <option>Application mobile</option>
-                <option>Plateforme web</option>
-                <option>Hébergement</option>
-                <option>Autre</option>
-              </select>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="phone">Téléphone <span class="form-field__optional">(optionnel)</span></label>
+                <input type="tel" id="phone" name="phone" placeholder="+33 6 12 34 56 78" autocomplete="tel" inputmode="tel" maxlength="32" />
+              </div>
+              <div class="form-field">
+                <label for="service">Type de projet</label>
+                <select id="service" name="service">
+                  <option value="">Sélectionnez une option…</option>
+                  <option>Site vitrine</option>
+                  <option>E-commerce</option>
+                  <option>Application mobile</option>
+                  <option>Plateforme web</option>
+                  <option>Hébergement</option>
+                  <option>Hébergement Android</option>
+                  <option>Hébergement Apple</option>
+                  <option>ERP (gestionnaire de stock)</option>
+                  <option>Autre</option>
+                </select>
+              </div>
             </div>
             <div class="form-field">
               <label for="message">Votre message</label>
