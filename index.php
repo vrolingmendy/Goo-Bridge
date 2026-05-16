@@ -24,50 +24,7 @@ require __DIR__ . '/contact_handler.php';
 <body>
 
   <!-- ===== NAVBAR ===== -->
-  <header id="navbar">
-    <input type="checkbox" id="nav-menu-toggle" class="nav-menu-checkbox">
-    <nav class="nav-container">
-      <a href="#accueil" class="nav-logo" aria-label="Goo-Bridge accueil">
-        <svg width="26" height="26" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-          <path d="M14 2L3 8V20L14 26L25 20V8L14 2Z" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" />
-          <path d="M3 8L14 14L25 8" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" />
-          <path d="M14 14V26" stroke="#16a34a" stroke-width="2" />
-        </svg>
-        <span>Goo<span class="logo-accent">Bridge</span></span>
-      </a>
-      <ul class="nav-links" role="list">
-        <li><a href="#accueil">Accueil</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#processus">Processus</a></li>
-        <li><a href="#stack">Stack</a></li>
-        <li><a href="#realisations">Réalisations</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <?php if (admin_logged_in()): ?>
-        <a href="<?= htmlspecialchars(url('admin/dashboard.php'), ENT_QUOTES, 'UTF-8') ?>" class="btn-nav-login">Login</a>
-      <?php else: ?>
-        <a href="<?= htmlspecialchars(url('login.php'), ENT_QUOTES, 'UTF-8') ?>" class="btn-nav-login">Connexion</a>
-      <?php endif; ?>
-      <a href="#contact" class="btn-cta" id="nav-cta">Consultation gratuite</a>
-      <label for="nav-menu-toggle" class="mobile-menu-btn" aria-label="Ouvrir ou fermer le menu">
-        <span></span><span></span><span></span>
-      </label>
-    </nav>
-    <div class="mobile-nav" id="mobileNav">
-      <a href="#accueil">Accueil</a>
-      <a href="#services">Services</a>
-      <a href="#processus">Processus</a>
-      <a href="#stack">Stack</a>
-      <a href="#realisations">Réalisations</a>
-      <a href="#contact">Contact</a>
-      <?php if (admin_logged_in()): ?>
-        <a href="<?= htmlspecialchars(url('admin/dashboard.php'), ENT_QUOTES, 'UTF-8') ?>">Tableau de bord</a>
-        <a href="<?= htmlspecialchars(url('logout.php'), ENT_QUOTES, 'UTF-8') ?>">Déconnexion</a>
-      <?php else: ?>
-        <a href="<?= htmlspecialchars(url('login.php'), ENT_QUOTES, 'UTF-8') ?>">Connexion</a>
-      <?php endif; ?>
-    </div>
-  </header>
+  <?php $siteHeaderOnIndex = true; require __DIR__ . '/partials/site_header.php'; ?>
 
   <main>
 
@@ -77,6 +34,10 @@ require __DIR__ . '/contact_handler.php';
       <?php require __DIR__ . '/partials/globe.php'; ?>
 
       <div class="hero-content">
+        <div class="hero-kicker reveal" data-delay="0">
+          <span class="hero-kicker__dot" aria-hidden="true"></span>
+          Studio digital web, mobile & hébergement
+        </div>
         <h1 class="hero-title reveal" data-delay="80">
           Nous construisons votre<br />
           <span class="gradient-text">présence digitale</span>
@@ -139,8 +100,7 @@ require __DIR__ . '/contact_handler.php';
 
       <div class="hero-visual reveal" data-delay="100">
         <div class="hero-img-wrap">
-          <img src="images/hero-agency.png" alt="Goo-Bridge Agence Digitale" width="560" height="460" loading="eager" />
-          <div class="hero-img-overlay"></div>
+          <img src="images/hero-agency.png" alt="Goo-Bridge Agence Digitale" width="800" height="800" loading="eager" decoding="async" fetchpriority="high" />
           <div class="hero-badge-float">
             <span class="pulse-green"></span>
             Portail déployé en production
@@ -169,7 +129,7 @@ require __DIR__ . '/contact_handler.php';
       </div>
 
       <!-- Service 1 -->
-      <div class="service-row reveal">
+      <div class="service-row reveal" style="--st:#16a34a">
         <div class="service-row-text">
           <div class="sr-tag" style="--st:#16a34a">Développement Web</div>
           <h3>Votre site web, votre vitrine permanente</h3>
@@ -195,12 +155,12 @@ require __DIR__ . '/contact_handler.php';
           <a href="#contact" class="btn-primary" style="margin-top:28px;display:inline-flex;">Demander un devis</a>
         </div>
         <div class="service-row-img">
-          <img src="images/about-ecommerce.png" alt="Développement Web & E-commerce" />
+          <img src="images/about-ecommerce.png" alt="Développement Web & E-commerce" width="800" height="800" loading="lazy" decoding="async" />
         </div>
       </div>
 
       <!-- Service 2 -->
-      <div class="service-row reverse reveal">
+      <div class="service-row reverse reveal" style="--st:#3b82f6">
         <div class="service-row-text">
           <div class="sr-tag" style="--st:#3b82f6">Applications Mobiles</div>
           <h3>Une app dans la poche de vos clients</h3>
@@ -228,12 +188,12 @@ require __DIR__ . '/contact_handler.php';
             projet</a>
         </div>
         <div class="service-row-img">
-          <img src="images/mobile-dev.png" alt="Développement Applications Mobiles" />
+          <img src="images/mobile-dev.png" alt="Développement Applications Mobiles" width="800" height="800" loading="lazy" decoding="async" />
         </div>
       </div>
 
       <!-- Service 3 -->
-      <div class="service-row reveal">
+      <div class="service-row reveal" style="--st:#8b5cf6">
         <div class="service-row-text">
           <div class="sr-tag" style="--st:#8b5cf6">Hébergement & Déploiement</div>
           <h3>Votre site en ligne, rapide et sécurisé</h3>
@@ -259,7 +219,7 @@ require __DIR__ . '/contact_handler.php';
           <a href="#contact" class="btn-primary" style="margin-top:28px;display:inline-flex;">Héberger mon projet</a>
         </div>
         <div class="service-row-img">
-          <img src="images/hosting-cloud.png" alt="Hébergement Cloud Sécurisé" />
+          <img src="images/hosting-cloud.png" alt="Hébergement Cloud Sécurisé" width="800" height="800" loading="lazy" decoding="async" />
         </div>
       </div>
     </section>
@@ -316,7 +276,7 @@ require __DIR__ . '/contact_handler.php';
           </div>
         </div>
         <div class="process-img reveal" data-delay="200">
-          <img src="images/process-workflow.png" alt="Notre processus de travail" />
+          <img src="images/process-workflow.png" alt="Notre processus de travail" width="800" height="800" loading="lazy" decoding="async" />
           <div class="process-img-badge">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2">
               <polyline points="20 6 9 17 4 12" />
@@ -408,8 +368,61 @@ require __DIR__ . '/contact_handler.php';
           </div>
         </div>
       </div>
-      <div class="why-collab-img reveal">
-        <img src="images/team-collaboration.png" alt="Notre équipe en action" />
+      <div class="why-commitments reveal">
+        <div class="why-commitments__head">
+          <span class="section-tag">Nos engagements</span>
+          <h3>Ce sur quoi vous pouvez <span class="gradient-text">compter</span></h3>
+        </div>
+        <ul class="why-commitments__grid" role="list">
+          <li class="why-commitment" style="--cc:#16a34a">
+            <span class="why-commitment__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="9" y1="15" x2="15" y2="15" />
+                <line x1="9" y1="11" x2="15" y2="11" />
+              </svg>
+            </span>
+            <div class="why-commitment__body">
+              <strong>Devis transparent</strong>
+              <span>Tarification détaillée avant le moindre engagement. Aucun frais caché.</span>
+            </div>
+          </li>
+          <li class="why-commitment" style="--cc:#3b82f6">
+            <span class="why-commitment__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" />
+              </svg>
+            </span>
+            <div class="why-commitment__body">
+              <strong>Code source remis</strong>
+              <span>Vous êtes propriétaire de votre code et de vos données, sans dépendance.</span>
+            </div>
+          </li>
+          <li class="why-commitment" style="--cc:#f59e0b">
+            <span class="why-commitment__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L15.09 8.26 22 9.27l-5 4.87 1.18 6.88L12 17.77 5.82 21.02 7 14.14 2 9.27l6.91-1.01z" />
+              </svg>
+            </span>
+            <div class="why-commitment__body">
+              <strong>Qualité garantie</strong>
+              <span>Code testé, documenté et conforme aux meilleurs standards web.</span>
+            </div>
+          </li>
+          <li class="why-commitment" style="--cc:#8b5cf6">
+            <span class="why-commitment__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+            </span>
+            <div class="why-commitment__body">
+              <strong>Disponibilité réelle</strong>
+              <span>Une équipe joignable, réactive et à votre écoute à chaque étape.</span>
+            </div>
+          </li>
+        </ul>
       </div>
     </section>
 
@@ -674,7 +687,7 @@ require __DIR__ . '/contact_handler.php';
       </div>
       <div class="portfolio-grid">
         <article class="portfolio-card reveal" data-delay="0">
-          <div class="pc-img-wrap"><img src="images/realisation-sugar-paper.png" alt="Sugar Paper" />
+          <div class="pc-img-wrap"><img src="images/realisation-sugar-paper.jpg" alt="Sugar Paper" width="1100" height="613" loading="lazy" decoding="async" />
             <div class="pc-overlay"><a href="https://sugar-paper.com/" target="_blank" rel="noopener"
                 class="pc-visit-btn">↗ Visiter le site</a></div>
           </div>
@@ -686,7 +699,7 @@ require __DIR__ . '/contact_handler.php';
           </div>
         </article>
         <article class="portfolio-card reveal" data-delay="100">
-          <div class="pc-img-wrap"><img src="images/realisation-aria-edu.png" alt="Aria Édu" />
+          <div class="pc-img-wrap"><img src="images/realisation-aria-edu.jpg" alt="Aria Édu" width="1100" height="613" loading="lazy" decoding="async" />
             <div class="pc-overlay"><a href="https://aria-edu.com/" target="_blank" rel="noopener"
                 class="pc-visit-btn">↗ Visiter le site</a></div>
           </div>
@@ -698,7 +711,7 @@ require __DIR__ . '/contact_handler.php';
           </div>
         </article>
         <article class="portfolio-card reveal" data-delay="200">
-          <div class="pc-img-wrap"><img src="images/realisation-fouta-poids.png" alt="Fouta Poids Lourds" />
+          <div class="pc-img-wrap"><img src="images/realisation-fouta-poids.jpg" alt="Fouta Poids Lourds" width="1100" height="613" loading="lazy" decoding="async" />
             <div class="pc-overlay"><a href="https://e.foutapoidslourds.com/" target="_blank" rel="noopener"
                 class="pc-visit-btn">↗ Visiter le site</a></div>
           </div>
@@ -711,7 +724,7 @@ require __DIR__ . '/contact_handler.php';
           </div>
         </article>
         <article class="portfolio-card reveal" data-delay="300">
-          <div class="pc-img-wrap"><img src="images/realisation-aria-education.png" alt="Aria Education" />
+          <div class="pc-img-wrap"><img src="images/realisation-aria-education.jpg" alt="Aria Education" width="1100" height="613" loading="lazy" decoding="async" />
             <div class="pc-overlay"><a href="https://aria-education.com/" target="_blank" rel="noopener"
                 class="pc-visit-btn">↗ Visiter le site</a></div>
           </div>

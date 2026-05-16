@@ -31,12 +31,13 @@ require_once __DIR__ . '/../../includes/paths.php';
       <nav class="admin-shell-nav" aria-label="Navigation admin">
         <?php if (function_exists('current_admin_is_super') && current_admin_is_super()): ?>
           <?php
-            $navUsersActive = isset($activeNav) && in_array($activeNav, ['admins', 'admins_create'], true);
+            $navUsersActive = isset($activeNav) && in_array($activeNav, ['admins', 'admins_create', 'admins_edit'], true);
           ?>
           <a href="<?= htmlspecialchars(url('admin/admins.php'), ENT_QUOTES, 'UTF-8') ?>" class="<?= $navUsersActive ? 'is-active' : '' ?>">Utilisateurs</a>
         <?php endif; ?>
         <a href="<?= htmlspecialchars(url('admin/dashboard.php'), ENT_QUOTES, 'UTF-8') ?>" class="<?= $activeNav === 'dashboard' ? 'is-active' : '' ?>">Tableau de bord</a>
         <a href="<?= htmlspecialchars(url('admin/clients.php'), ENT_QUOTES, 'UTF-8') ?>" class="<?= $activeNav === 'clients' ? 'is-active' : '' ?>">Clients &amp; entreprises</a>
+        <a href="<?= htmlspecialchars(url('admin/support_tickets.php'), ENT_QUOTES, 'UTF-8') ?>" class="<?= $activeNav === 'tickets' ? 'is-active' : '' ?>">Tickets</a>
         <a href="<?= htmlspecialchars(url('index.php'), ENT_QUOTES, 'UTF-8') ?>">Site public</a>
         <a href="<?= htmlspecialchars(url('logout.php'), ENT_QUOTES, 'UTF-8') ?>">Déconnexion</a>
       </nav>

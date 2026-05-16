@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         'hash' => $hash,
                         'is_super_admin' => $role === 'super_admin' ? 1 : 0,
                     ]);
-                    header('Location: ' . url('admin/admins.php?created=1'), true, 303);
+                    header('Location: ' . url('admin/admins.php?flash=created'), true, 303);
                     exit;
                 }
             } catch (Throwable $e) {

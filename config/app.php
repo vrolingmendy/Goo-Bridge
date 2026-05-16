@@ -6,9 +6,9 @@ declare(strict_types=1);
  * Configuration application.
  *
  * base_url : URL de base du projet depuis la racine du site (sans slash final).
- *   - null  = détection automatique (recommandé en général)
- *   - ''    = site à la racine du virtual host (ex. http://localhost/)
- *   - '/bridge' = projet dans un sous-dossier (ex. http://localhost/bridge/)
+ *   - null  = détection automatique
+ *   - ''    = site à la racine du domaine (ex. https://goo-bridge.com/)
+ *   - '/bridge' = projet dans un sous-dossier (ex. https://goo-bridge.com/bridge/)
  *
  * Si après connexion vous n’atterrissez pas sur le dashboard, forcez la valeur adaptée.
  */

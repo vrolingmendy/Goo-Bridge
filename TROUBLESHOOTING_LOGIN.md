@@ -2,11 +2,10 @@
 
 ## ✓ Tests effectués - Tout fonctionne côté serveur
 
-1. **Base de données** : 2 comptes admin trouvés
-   - vrolingmendy0@gmail.com (ID: 1) - Mot de passe: Passer123 ✓
-   - vroling@gmail.com (ID: 2)
+1. **Base de données** : comptes admin vérifiés
+   - Utilisez les identifiants administrateur définis dans la base.
 
-2. **Connexion HTTP** : 302 Found → /bridge/admin/dashboard.php ✓
+2. **Connexion HTTP** : 302 Found → /admin/dashboard.php ✓
 
 3. **Session** : Cookie créé et dashboard accessible ✓
 
@@ -18,40 +17,37 @@ Dans votre navigateur :
 2. Cochez "Cookies" et "Cache"
 3. Cliquez sur "Effacer"
 4. Fermez complètement le navigateur et rouvrez-le
-5. Allez sur http://localhost/bridge/login.php
+5. Allez sur https://goo-bridge.com/login.php
 
 ### Solution 2 : Mode navigation privée
 1. Ouvrez une fenêtre de navigation privée (Cmd+Shift+N sur Chrome/Edge)
-2. Allez sur http://localhost/bridge/login.php
-3. Connectez-vous avec:
-   - Email: vrolingmendy0@gmail.com
-   - Mot de passe: Passer123
+2. Allez sur https://goo-bridge.com/login.php
+3. Connectez-vous avec vos identifiants administrateur.
 
 ### Solution 3 : Vérifier l'URL exacte
 Assurez-vous d'utiliser EXACTEMENT cette URL :
 ```
-http://localhost/bridge/login.php
+https://goo-bridge.com/login.php
 ```
 
-Ne pas utiliser:
+Ne pas utiliser les anciennes URLs locales :
 - http://127.0.0.1/bridge/login.php
 - http://localhost:8080/bridge/login.php
-- Sans le /bridge/ si votre projet est dans ce dossier
+- http://localhost/bridge/login.php
 
 ### Solution 4 : Tester avec curl (pour confirmer que ça marche)
 Ouvrez le Terminal et exécutez:
 ```bash
 curl -L -c /tmp/cookies.txt -b /tmp/cookies.txt \
-  -d "email=vrolingmendy0@gmail.com" \
-  -d "password=Passer123" \
-  http://localhost/bridge/login.php
+  -d "email=votre-email-admin" \
+  -d "password=votre-mot-de-passe" \
+  https://goo-bridge.com/login.php
 ```
 
 ## 📋 Comptes disponibles
 
-Vous avez 2 comptes admin :
-1. vrolingmendy0@gmail.com / Passer123 (compte initial)
-2. vroling@gmail.com / (le mot de passe que vous avez défini à l'inscription)
+Utilisez uniquement les comptes administrateur créés dans la base de données.
+Ne conservez jamais de mot de passe en clair dans ce fichier.
 
 ## ❓ Si ça ne marche toujours pas
 

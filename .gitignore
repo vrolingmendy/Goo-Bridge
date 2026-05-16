@@ -3,3 +3,10 @@
 /composer.phar
 /config/mail.local.php
 /storage/contacts.log
+/uploads/client_logos/*
+!/uploads/client_logos/.gitkeep
+/uploads/support_tickets/*
+!/uploads/support_tickets/.gitkeep
+
+# Backup des images originales (avant compression perf)
+/images/original/

@@ -73,12 +73,12 @@ header('Content-Type: text/html; charset=UTF-8');
       <form method="post" action="<?= url('login.php') ?>" style="max-width: 400px;">
         <div style="margin-bottom: 15px;">
           <label style="display: block; margin-bottom: 5px; font-weight: 600;">Email</label>
-          <input type="email" name="email" value="vrolingmendy0@gmail.com" 
+          <input type="email" name="email" value=""
             style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
         </div>
         <div style="margin-bottom: 15px;">
           <label style="display: block; margin-bottom: 5px; font-weight: 600;">Mot de passe</label>
-          <input type="password" name="password" value="Passer123"
+          <input type="password" name="password" value=""
             style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
         </div>
         <button type="submit" style="background: #16a34a; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">

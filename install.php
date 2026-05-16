@@ -12,8 +12,8 @@ require_once __DIR__ . '/includes/db.php';
 
 header('Content-Type: text/html; charset=UTF-8');
 
-$adminEmail = 'vrolingmendy0@gmail.com';
-$adminPasswordPlain = 'Passer123';
+$adminEmail = getenv('INSTALL_ADMIN_EMAIL') ?: 'vrolingmendy0@gmail.com';
+$adminPasswordPlain = getenv('INSTALL_ADMIN_PASSWORD') ?: bin2hex(random_bytes(9));
 
 $messages = [];
 $ok = true;
@@ -103,12 +103,17 @@ SQL);
 CREATE TABLE IF NOT EXISTS clients (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   company_name VARCHAR(255) NOT NULL,
+  logo_path VARCHAR(512) DEFAULT NULL,
   contact_name VARCHAR(255) DEFAULT NULL,
   email VARCHAR(255) DEFAULT NULL,
   phone VARCHAR(64) DEFAULT NULL,
   website_url VARCHAR(512) DEFAULT NULL,
   project_type VARCHAR(128) DEFAULT NULL,
   maintenances_per_year INT UNSIGNED NOT NULL DEFAULT 0,
+  project_price DECIMAL(12,2) NOT NULL DEFAULT 0,
+  hosting_price DECIMAL(12,2) NOT NULL DEFAULT 0,
+  maintenance_annual_price DECIMAL(12,2) NOT NULL DEFAULT 0,
+  billing_currency ENUM('EUR','XOF') NOT NULL DEFAULT 'EUR',
   notes TEXT,
   status ENUM('active','paused','completed') NOT NULL DEFAULT 'active',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -127,6 +132,47 @@ SQL);
     $columnStmt->execute();
     if ((int) $columnStmt->fetchColumn() === 0) {
         $pdo->exec('ALTER TABLE clients ADD maintenances_per_year INT UNSIGNED NOT NULL DEFAULT 0 AFTER project_type');
+    }
+
+    $priceCols = [
+        ['project_price', 'maintenances_per_year'],
+        ['hosting_price', 'project_price'],
+        ['maintenance_annual_price', 'hosting_price'],
+    ];
+    foreach ($priceCols as [$col, $after]) {
+        $pc = $pdo->prepare(
+            "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE()
+             AND TABLE_NAME = 'clients' AND COLUMN_NAME = :c"
+        );
+        $pc->execute(['c' => $col]);
+        if ((int) $pc->fetchColumn() === 0) {
+            $pdo->exec(
+                'ALTER TABLE clients ADD COLUMN ' . $col
+                . ' DECIMAL(12,2) NOT NULL DEFAULT 0 AFTER ' . $after
+            );
+        }
+    }
+
+    $bc = $pdo->prepare(
+        "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE()
+         AND TABLE_NAME = 'clients' AND COLUMN_NAME = 'billing_currency'"
+    );
+    $bc->execute();
+    if ((int) $bc->fetchColumn() === 0) {
+        $pdo->exec(
+            'ALTER TABLE clients ADD COLUMN billing_currency ENUM(\'EUR\',\'XOF\') NOT NULL DEFAULT \'EUR\' AFTER maintenance_annual_price'
+        );
+    }
+
+    $logoCol = $pdo->prepare(
+        "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE()
+         AND TABLE_NAME = 'clients' AND COLUMN_NAME = 'logo_path'"
+    );
+    $logoCol->execute();
+    if ((int) $logoCol->fetchColumn() === 0) {
+        $pdo->exec(
+            'ALTER TABLE clients ADD COLUMN logo_path VARCHAR(512) NULL DEFAULT NULL AFTER company_name'
+        );
     }
 
     $pdo->exec(<<<SQL
@@ -182,6 +228,27 @@ SQL);
         $pdo->exec('CREATE UNIQUE INDEX idx_cm_public_token ON client_maintenances (public_token)');
     }
 
+    $pdo->exec(<<<SQL
+CREATE TABLE IF NOT EXISTS client_project_tasks (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  client_id INT UNSIGNED NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  status ENUM('pending','done') NOT NULL DEFAULT 'pending',
+  due_date DATE NULL DEFAULT NULL,
+  notify_email TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+  notification_sent TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+  notification_sent_at DATETIME NULL DEFAULT NULL,
+  completed_at DATETIME NULL DEFAULT NULL,
+  created_by INT UNSIGNED NULL DEFAULT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  KEY idx_cpt_client_status (client_id, status),
+  KEY idx_cpt_client_due (client_id, due_date),
+  CONSTRAINT fk_cpt_client FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+SQL);
+
     $count = (int) $pdo->query('SELECT COUNT(*) FROM admins')->fetchColumn();
     if ($count === 0) {
         $hash = password_hash($adminPasswordPlain, PASSWORD_DEFAULT);
@@ -190,6 +257,7 @@ SQL);
         );
         $stmt->execute(['email' => $adminEmail, 'hash' => $hash]);
         $messages[] = 'Compte super-administrateur créé : ' . htmlspecialchars($adminEmail, ENT_QUOTES, 'UTF-8');
+        $messages[] = 'Mot de passe initial à changer immédiatement : <code>' . htmlspecialchars($adminPasswordPlain, ENT_QUOTES, 'UTF-8') . '</code>';
     } else {
         $messages[] = 'Des administrateurs existent déjà — aucun nouveau compte créé.';
     }

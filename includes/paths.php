@@ -49,9 +49,10 @@ function absolute_url_from_path(string $relativePath): string
     }
 
     $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-        || (isset($_SERVER['SERVER_PORT']) && (string) $_SERVER['SERVER_PORT'] === '443');
+        || (isset($_SERVER['SERVER_PORT']) && (string) $_SERVER['SERVER_PORT'] === '443')
+        || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
     $scheme = $https ? 'https' : 'http';
-    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $host = $_SERVER['HTTP_HOST'] ?? 'goo-bridge.com';
 
     return $scheme . '://' . $host . $relativePath;
 }
@@ -59,4 +60,9 @@ function absolute_url_from_path(string $relativePath): string
 function maintenance_sign_absolute_url(string $publicToken): string
 {
     return absolute_url_from_path(url('maintenance_sign.php?t=' . rawurlencode($publicToken)));
+}
+
+function client_support_portal_absolute_url(string $ticketPortalToken): string
+{
+    return absolute_url_from_path(url('client_support.php?t=' . rawurlencode($ticketPortalToken)));
 }
