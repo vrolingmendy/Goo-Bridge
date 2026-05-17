@@ -68,6 +68,7 @@ function send_project_task_completion_mail(array $client, array $task): array
     $descriptionEsc = $description !== '' ? nl2br(htmlspecialchars($description, ENT_QUOTES, 'UTF-8'), false) : '';
     $completedEsc = htmlspecialchars($completedLabel, ENT_QUOTES, 'UTF-8');
     $contactEmailEsc = htmlspecialchars((string) $cfg['to_email'], ENT_QUOTES, 'UTF-8');
+    $siteHomeEsc = htmlspecialchars(absolute_url_from_path(url('index.php')), ENT_QUOTES, 'UTF-8');
 
     $descriptionBlock = $descriptionEsc !== ''
         ? <<<HTML
@@ -149,7 +150,7 @@ HTML
           </td>
         </tr>
       </table>
-      <p style="font-family:Segoe UI,system-ui,sans-serif;font-size:11px;color:#86a893;margin:20px 8px 0;text-align:center;">Vous recevez cet email car votre entreprise est suivie par Goo-Bridge.</p>
+      <p style="font-family:Segoe UI,system-ui,sans-serif;font-size:11px;color:#86a893;margin:20px 8px 0;text-align:center;">Vous recevez cet email car votre entreprise est suivie par Goo-Bridge · <a href="{$siteHomeEsc}" style="color:#15803d;font-weight:600;text-decoration:none;">goo-bridge.com</a></p>
     </td>
   </tr>
 </table>
@@ -163,7 +164,8 @@ HTML;
             . 'Tâche : ' . $title . "\n"
             . 'Réalisée le : ' . $completedLabel . "\n"
             . $altDescription
-            . "\nPour toute question : " . $cfg['to_email'] . "\n\n"
+            . "\nPour toute question : " . $cfg['to_email'] . "\n"
+            . 'Site : ' . absolute_url_from_path(url('index.php')) . "\n\n"
             . "Cordialement,\nL'équipe Goo-Bridge";
 
         $mail->send();

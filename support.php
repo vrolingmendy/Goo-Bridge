@@ -323,6 +323,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       .lg-contact { flex-direction: column; gap: 10px; }
     }
 
+    @media (max-width: 480px) {
+      .lg-phone-grid {
+        grid-template-columns: 1fr;
+      }
+      .lg-shell {
+        padding-left: max(12px, env(safe-area-inset-left, 0px));
+        padding-right: max(12px, env(safe-area-inset-right, 0px));
+      }
+    }
+
     body.lg-page main.lg-shell { padding-top: calc(40px + var(--nav-h, 64px)); }
   </style>
 </head>

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/paths.php';
+
 use PHPMailer\PHPMailer\Exception as MailException;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -40,6 +42,7 @@ function contact_mail_send_visitor_confirmation(array $cfg, array $record): void
 {
     $nameEsc = htmlspecialchars($record['name'], ENT_QUOTES, 'UTF-8');
     $contactEsc = htmlspecialchars($cfg['to_email'], ENT_QUOTES, 'UTF-8');
+    $siteHomeEsc = htmlspecialchars(absolute_url_from_path(url('index.php')), ENT_QUOTES, 'UTF-8');
 
     $confirm = new PHPMailer(true);
     try {
@@ -62,6 +65,7 @@ function contact_mail_send_visitor_confirmation(array $cfg, array $record): void
 <p style="margin:0 0 14px;font-size:15px;">Nous avons bien reçu votre message et vous remercions pour l’intérêt porté à <strong>Goo-Bridge</strong>.</p>
 <p style="margin:0 0 14px;font-size:15px;">Notre équipe vous contactera pour échanger plus en détail sur votre projet dans un délai de <strong>24 à 72 heures</strong> (jours ouvrés).</p>
 <p style="margin:0;font-size:14px;color:#3d5c3d;">Si votre demande est urgente, vous pouvez nous écrire directement à <a href="mailto:{$contactEsc}" style="color:#16a34a;">{$contactEsc}</a>.</p>
+<p style="margin:14px 0 0;font-size:13px;color:#647864;">Site : <a href="{$siteHomeEsc}" style="color:#16a34a;font-weight:600;text-decoration:none;">goo-bridge.com</a></p>
 </td></tr>
 <tr><td style="padding:16px 28px 28px;border-top:1px solid rgba(0,0,0,.06);">
 <p style="margin:0;font-size:13px;color:#647864;">Cordialement,<br><strong>L’équipe Goo-Bridge</strong></p>
@@ -74,7 +78,8 @@ function contact_mail_send_visitor_confirmation(array $cfg, array $record): void
 HTML;
         $confirm->AltBody = "Bonjour {$record['name']},\n\n"
             . "Nous avons bien reçu votre message. Notre équipe vous contactera pour plus de détails sous 24 à 72 heures (jours ouvrés).\n\n"
-            . 'Pour une demande urgente : ' . $cfg['to_email'] . "\n\n"
+            . 'Pour une demande urgente : ' . $cfg['to_email'] . "\n"
+            . 'Site : ' . absolute_url_from_path(url('index.php')) . "\n\n"
             . "Cordialement,\nL'équipe Goo-Bridge";
         $confirm->send();
     } catch (MailException $e) {
@@ -100,6 +105,7 @@ function contact_mail_send_admin_notification(array $cfg, array $record): void
     $messageEsc = htmlspecialchars($record['message'], ENT_QUOTES, 'UTF-8');
     $messageHtml = nl2br($messageEsc, false);
     $mailtoEsc = htmlspecialchars('mailto:' . $record['email'], ENT_QUOTES, 'UTF-8');
+    $siteHomeEsc = htmlspecialchars(absolute_url_from_path(url('index.php')), ENT_QUOTES, 'UTF-8');
 
     $phoneEsc = htmlspecialchars($phone, ENT_QUOTES, 'UTF-8');
     $telDial = preg_replace('/[^\d+]/', '', $phone);
@@ -195,7 +201,7 @@ PHONE
           </td>
         </tr>
       </table>
-      <p style="font-family:Segoe UI,system-ui,sans-serif;font-size:11px;color:#86a893;margin:20px 8px 0;text-align:center;">Cet email vous est envoyé car une personne a utilisé le formulaire sur goo-bridge.com</p>
+      <p style="font-family:Segoe UI,system-ui,sans-serif;font-size:11px;color:#86a893;margin:20px 8px 0;text-align:center;">Cet email vous est envoyé car une personne a utilisé le formulaire sur <a href="{$siteHomeEsc}" style="color:#15803d;font-weight:600;text-decoration:none;">goo-bridge.com</a></p>
     </td>
   </tr>
 </table>

@@ -34,10 +34,6 @@ require __DIR__ . '/contact_handler.php';
       <?php require __DIR__ . '/partials/globe.php'; ?>
 
       <div class="hero-content">
-        <div class="hero-kicker reveal" data-delay="0">
-          <span class="hero-kicker__dot" aria-hidden="true"></span>
-          Studio digital web, mobile & hébergement
-        </div>
         <h1 class="hero-title reveal" data-delay="80">
           Nous construisons votre<br />
           <span class="gradient-text">présence digitale</span>
@@ -78,44 +74,36 @@ require __DIR__ . '/contact_handler.php';
             </svg>
             <span>Hébergement sécurisé SSL</span>
           </div>
-        </div>
-
-        <div class="hero-stats reveal" data-delay="400">
-          <div class="stat">
-            <span class="stat-num">100</span><span class="stat-num">+</span>
-            <span class="stat-label">Projets livrés</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat">
-            <span class="stat-num">98</span><span class="stat-num">%</span>
-            <span class="stat-label">Clients satisfaits</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat">
-            <span class="stat-num">5</span><span class="stat-num"> ans</span>
-            <span class="stat-label">D'expertise</span>
+          <div class="trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            <span>5 ans d'expérience</span>
           </div>
         </div>
       </div>
 
       <div class="hero-visual reveal" data-delay="100">
-        <div class="hero-img-wrap">
-          <img src="images/hero-agency.png" alt="Goo-Bridge Agence Digitale" width="800" height="800" loading="eager" decoding="async" fetchpriority="high" />
-          <div class="hero-badge-float">
-            <span class="pulse-green"></span>
-            Portail déployé en production
+        <div class="hero-visual__frame">
+          <div class="hero-img-wrap">
+            <img src="images/hero-agency.png" alt="Goo-Bridge Agence Digitale" width="800" height="800" loading="eager" decoding="async" fetchpriority="high" />
+            <div class="hero-badge-float">
+              <span class="pulse-green"></span>
+              Portail déployé en production
+            </div>
+            <div class="hero-badge-float2">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              SSL · 99.9% uptime
+            </div>
           </div>
-          <div class="hero-badge-float2">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
-            SSL · 99.9% uptime
-          </div>
+          <ul class="hero-service-chips" aria-label="Types de projets">
+            <li class="hero-service-chip reveal" data-delay="500">🌐 Site vitrine</li>
+            <li class="hero-service-chip reveal" data-delay="600">📱 App mobile</li>
+            <li class="hero-service-chip reveal" data-delay="700">🛒 E-commerce</li>
+          </ul>
         </div>
-        <!-- Floating service chips -->
-        <div class="hero-chip hero-chip-1 reveal" data-delay="500">🌐 Site vitrine</div>
-        <div class="hero-chip hero-chip-2 reveal" data-delay="600">📱 App mobile</div>
-        <div class="hero-chip hero-chip-3 reveal" data-delay="700">🛒 E-commerce</div>
       </div>
     </section>
 
@@ -734,6 +722,30 @@ require __DIR__ . '/contact_handler.php';
             <h3>Aria Education</h3>
             <p>Gestion scolaire complète : présences, bulletins, tableau de bord, notifications.</p><a
               href="https://aria-education.com/" target="_blank" rel="noopener" class="pc-link">aria-education.com ↗</a>
+          </div>
+        </article>
+        <article class="portfolio-card reveal" data-delay="400">
+          <div class="pc-img-wrap"><img src="images/realisation-colobanes.png" alt="Colobanes — marché en ligne" width="1024" height="495" loading="lazy" decoding="async" />
+            <div class="pc-overlay"><a href="https://colobanes.com/" target="_blank" rel="noopener"
+                class="pc-visit-btn">↗ Visiter le site</a></div>
+          </div>
+          <div class="pc-body">
+            <div class="pc-tags"><span class="pc-tag">E-commerce</span><span class="pc-tag">Marketplace</span></div>
+            <h3>Colobanes</h3>
+            <p>Marché en ligne multi-catégories : recherche, vitrines produits, compte client et parcours d’achat.</p><a href="https://colobanes.com/"
+              target="_blank" rel="noopener" class="pc-link">colobanes.com ↗</a>
+          </div>
+        </article>
+        <article class="portfolio-card reveal" data-delay="500">
+          <div class="pc-img-wrap"><img src="images/realisation-tresorafricain.png" alt="Trésor Africain — boutique en ligne" width="1024" height="502" loading="lazy" decoding="async" />
+            <div class="pc-overlay"><a href="https://tresorafricain.com/" target="_blank" rel="noopener"
+                class="pc-visit-btn">↗ Visiter le site</a></div>
+          </div>
+          <div class="pc-body">
+            <div class="pc-tags"><span class="pc-tag">E-commerce</span><span class="pc-tag">Épicerie africaine</span></div>
+            <h3>Trésor Africain</h3>
+            <p>Boutique en ligne : catalogue produits, recherche, compte client et parcours d’achat.</p><a
+              href="https://tresorafricain.com/" target="_blank" rel="noopener" class="pc-link">tresorafricain.com ↗</a>
           </div>
         </article>
       </div>

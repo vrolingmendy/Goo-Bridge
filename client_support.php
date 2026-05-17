@@ -735,6 +735,9 @@ if (!isset($priMeta[$postedPriority])) {
       gap: 10px;
     }
     .ct-phone-row > * { min-width: 0; }
+    @media (max-width: 480px) {
+      .ct-phone-row { grid-template-columns: 1fr; }
+    }
     .ct-phone-cc {
       cursor: pointer; appearance: none;
       font-weight: 600; font-size: 0.9rem;
